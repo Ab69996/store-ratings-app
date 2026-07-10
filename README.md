@@ -1,299 +1,136 @@
-<div align="center">
+# Store Ratings Platform
 
-# ⭐ Store Ratings Web Application
+A full-stack web application for submitting and managing ratings for registered stores, with role-based access for administrators, store owners, and regular users.
 
-### Full Stack Intern Coding Challenge
+## Overview
 
-<p>
-A full-stack web application that enables users to browse registered stores, submit ratings (1–5), and provides secure role-based access for <strong>System Administrators</strong>, <strong>Store Owners</strong>, and <strong>Normal Users</strong>.
-</p>
+Store Ratings Platform provides a single authentication system with three distinct user roles, each with a tailored dashboard and permission set. Users can discover stores, submit 1–5 star ratings, and update them at any time. Store owners can track feedback on their store, and administrators manage the full catalog of users and stores from a central admin console.
 
-<p>
-<img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
-<img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white">
-<img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white">
-<img src="https://img.shields.io/badge/PostgreSQL-336791?style=for-the-badge&logo=postgresql&logoColor=white">
-<img src="https://img.shields.io/badge/JWT-000000?style=for-the-badge">
-<img src="https://img.shields.io/badge/License-Educational-blue?style=for-the-badge">
-</p>
+## Project Highlights
 
-</div>
+- Role-Based Authentication
+- JWT Authorization
+- Store Rating System (1–5)
+- PostgreSQL Relational Database
+- RESTful API Design
+- Search, Filtering & Sorting
+- Form Validation
+- Secure Password Hashing
+  
+## Features
 
----
+**System Administrator**
+- Dashboard with platform-wide metrics (total users, stores, ratings)
+- Create new users of any role (Admin, Normal User, Store Owner)
+- Create and assign stores to store owners
+- View, filter, and sort user and store listings by name, email, address, and role
+- Inspect individual user details, including computed rating for store owners
 
-# 📖 Project Overview
+**Normal User**
+- Self-service registration and login
+- Browse and search stores by name and address
+- Submit and update a 1–5 star rating per store
+- View both the store's overall rating and their own submitted rating
+- Update their password
 
-Store Ratings is a full-stack web application developed as part of a **Full Stack Intern Coding Challenge**.
+**Store Owner**
+- View the list of users who rated their store
+- View their store's average rating
+- Update their password
 
-The application allows users to browse registered stores, submit ratings between **1 and 5**, and access different features based on their assigned roles.
+## Tech Stack
 
-It follows modern web development practices including secure authentication, role-based authorization, server-side validation, and relational database design.
+| Layer      | Technology                                   |
+|------------|-----------------------------------------------|
+| Frontend   | React 18, React Router, Axios, Vite           |
+| Backend    | Node.js, Express.js                           |
+| Database   | PostgreSQL                                    |
+| Auth       | JWT (JSON Web Tokens), bcrypt password hashing |
+| Validation | express-validator                             |
 
----
+## Architecture
 
-# ✨ Features
-
-## 👨‍💼 System Administrator
-
-- Secure Login
-- Dashboard
-  - Total Users
-  - Total Stores
-  - Total Ratings
-- Add Users
-- Add Stores
-- Manage Users
-- Manage Stores
-- View User Details
-- Search Users & Stores
-- Filter Records
-- Sort Records
-- Logout
-
----
-
-## 👤 Normal User
-
-- User Registration
-- Secure Login
-- Browse Stores
-- Search Stores
-- Submit Ratings
-- Modify Ratings
-- View Overall Ratings
-- Update Password
-- Logout
-
----
-
-## 🏪 Store Owner
-
-- Secure Login
-- View Average Store Rating
-- View Users who Rated Store
-- Update Password
-- Logout
-
----
-
-# 🛠 Tech Stack
-
-| Category | Technologies |
-|-----------|--------------|
-| Frontend | React.js, Vite, React Router, Axios |
-| Backend | Node.js, Express.js |
-| Database | PostgreSQL |
-| Authentication | JWT, bcrypt |
-| API Testing | Postman |
-
----
-
-# 📁 Project Structure
-
-```text
+```
 store-ratings-app/
-│
 ├── backend/
-│   ├── src/
-│   │   ├── db/
-│   │   ├── middleware/
-│   │   ├── routes/
-│   │   ├── utils/
-│   │   └── server.js
-│   │
-│   ├── package.json
-│   ├── package-lock.json
-│   └── .env.example
-│
-├── frontend/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── context/
-│   │   ├── pages/
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   │
-│   ├── package.json
-│   ├── package-lock.json
-│   └── .env.example
-│
-├── .gitignore
-└── README.md
+│   └── src/
+│       ├── db/            # Connection pool and schema definition
+│       ├── middleware/     # JWT verification and role-based access control
+│       ├── routes/         # auth, admin, stores, store-owner endpoints
+│       └── utils/          # Shared validators and DB seed script
+└── frontend/
+    └── src/
+        ├── components/    # Navbar, route guards, shared UI elements
+        ├── context/        # Authentication state provider
+        └── pages/          # Role-specific views (dashboards, listings, forms)
 ```
 
----
+### Data Model
 
-# 🚀 Local Setup
+- **users** — id, name, email, hashed password, address, role (`admin` / `user` / `store_owner`)
+- **stores** — id, name, email, address, owner_id (FK → users)
+- **ratings** — id, user_id (FK), store_id (FK), rating (1–5), unique per (user, store)
 
-## Backend
+### API Summary
+
+| Method | Endpoint                     | Access        | Description                          |
+|--------|-------------------------------|---------------|--------------------------------------|
+| POST   | `/api/auth/signup`            | Public        | Register a normal user               |
+| POST   | `/api/auth/login`              | Public        | Authenticate and receive a JWT       |
+| PUT    | `/api/auth/password`           | Authenticated | Update own password                  |
+| GET    | `/api/admin/dashboard`         | Admin         | Platform-wide metrics                |
+| POST   | `/api/admin/users`              | Admin         | Create a user of any role            |
+| POST   | `/api/admin/stores`             | Admin         | Create a store                       |
+| GET    | `/api/admin/users`               | Admin         | List/filter/sort users               |
+| GET    | `/api/admin/users/:id`           | Admin         | User detail view                     |
+| GET    | `/api/admin/stores`              | Admin         | List/filter/sort stores              |
+| GET    | `/api/stores`                    | Normal User   | Browse/search stores with ratings    |
+| POST   | `/api/stores/:id/rating`         | Normal User   | Submit or update a rating            |
+| GET    | `/api/store-owner/dashboard`     | Store Owner   | Ratings received and average rating  |
+
+## Validation Rules
+
+- **Name:** 20–60 characters
+- **Address:** up to 400 characters
+- **Password:** 8–16 characters, at least one uppercase letter and one special character
+- **Email:** standard email format
+
+Validation is enforced on both the client and server; the server is the source of truth.
+
+## Getting Started
+
+### Prerequisites
+- Node.js (LTS)
+- PostgreSQL (local instance or a hosted provider)
+
+### Backend
 
 ```bash
 cd backend
 npm install
-```
-
-Create a `.env` file using `.env.example`.
-
-Initialize the database:
-
-```bash
-npm run seed
-```
-
-Start the backend server:
-
-```bash
+Create a `.env` file using the provided `.env.example` and configure the required environment variables.
+npm run seed             # creates tables and a default admin account
 npm run dev
 ```
 
----
-
-## Frontend
-
-Open a new terminal.
+### Frontend
 
 ```bash
 cd frontend
 npm install
+Create a `.env` file using the provided `.env.example` and configure the required environment variables.
 npm run dev
 ```
 
-The application will be available on the local Vite development server.
+The frontend runs on `http://localhost:5173` and communicates with the backend on `http://localhost:5000` by default.
 
----
+## Security Notes
 
-# 🔐 Environment Variables
+- Passwords are hashed with bcrypt before storage.
+- Authentication is stateless via signed JWTs with an 8-hour expiry.
+- All role-restricted endpoints are protected by middleware that validates both the token and the user's role.
+- Environment files containing secrets are excluded from version control.
 
-Create a `.env` file inside the backend directory.
+## License
 
-Example:
-
-```env
-DATABASE_URL=<your_database_connection_string>
-
-JWT_SECRET=<your_secret_key>
-
-ADMIN_NAME=<admin_name>
-
-ADMIN_EMAIL=<admin_email>
-
-ADMIN_PASSWORD=<admin_password>
-```
-
-Sensitive credentials are intentionally excluded from this repository.
-
----
-
-# ✅ Form Validations
-
-| Field | Validation |
-|--------|------------|
-| Name | 20–60 characters |
-| Address | Maximum 400 characters |
-| Email | Standard Email Format |
-| Password | 8–16 characters with at least one uppercase letter and one special character |
-| Rating | Integer value between 1 and 5 |
-
-Validation is implemented on both the frontend and backend.
-
----
-
-# 🔒 Security Features
-
-- JWT Authentication
-- Password Hashing using bcrypt
-- Role-Based Authorization
-- Protected API Routes
-- Server-side Validation
-- Client-side Validation
-- Environment Variables
-- Parameterized SQL Queries
-- Secure Password Update
-
----
-
-# 📊 Assignment Requirement Checklist
-
-| Requirement | Status |
-|-------------|:------:|
-| User Registration | ✅ |
-| User Login | ✅ |
-| JWT Authentication | ✅ |
-| Role-Based Authorization | ✅ |
-| Administrator Dashboard | ✅ |
-| Store Owner Dashboard | ✅ |
-| Store Management | ✅ |
-| User Management | ✅ |
-| Rating System | ✅ |
-| Rating Update | ✅ |
-| Search Functionality | ✅ |
-| Filter Functionality | ✅ |
-| Sorting Functionality | ✅ |
-| Password Update | ✅ |
-| PostgreSQL Integration | ✅ |
-| React Frontend | ✅ |
-| Express Backend | ✅ |
-
----
-
-# 📷 Screenshots
-
-You can include screenshots here for demonstration.
-
-Suggested screenshots:
-
-- Login Page
-- Registration Page
-- Administrator Dashboard
-- User Management
-- Store Listing
-- Rating Submission
-- Store Owner Dashboard
-
----
-
-# 🚀 Future Improvements
-
-- Email Verification
-- Password Reset
-- Profile Management
-- Store Images
-- Pagination
-- Dashboard Analytics
-- Docker Support
-- Unit Testing
-- Integration Testing
-- CI/CD Pipeline
-
----
-
-# 📖 Assignment Information
-
-This project was developed as part of a **Full Stack Intern Coding Challenge**.
-
-The project demonstrates:
-
-- Full Stack Development
-- Secure Authentication
-- Role-Based Authorization
-- PostgreSQL Database Design
-- RESTful API Development
-- Store Rating System
-- Dashboard Analytics
-- Search, Filter & Sorting
-- Responsive React Frontend
-
-
-# 📄 License
-
-This project is intended solely for **educational and assignment evaluation purposes**.
-
----
-
-<div align="center">
-
-### ⭐ Thank you for reviewing this project!
-
-Built with ❤️ using **React • Express.js • PostgreSQL**
-
-</div>
+This project is provided for demonstration and evaluation purposes.
