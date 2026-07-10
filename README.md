@@ -3,46 +3,98 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Store Ratings Web Application</title>
 
 <style>
-body{
+*{
     margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
     font-family:Segoe UI,Arial,sans-serif;
-    background:#f4f6f9;
+    background:#eef2f7;
     color:#333;
+    line-height:1.7;
+}
+
+header{
+    background:linear-gradient(135deg,#2563eb,#1d4ed8);
+    color:white;
+    padding:50px 20px;
+    text-align:center;
+}
+
+header h1{
+    font-size:42px;
+    margin-bottom:10px;
+}
+
+header p{
+    font-size:18px;
+    opacity:.95;
 }
 
 .container{
     width:90%;
-    max-width:1000px;
+    max-width:1100px;
     margin:40px auto;
-    background:#fff;
-    padding:40px;
-    border-radius:10px;
-    box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
 
-h1{
-    color:#2563eb;
-    text-align:center;
+.card{
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    margin-bottom:25px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
 }
 
 h2{
-    color:#1e40af;
+    color:#2563eb;
+    margin-bottom:15px;
     border-bottom:2px solid #2563eb;
-    padding-bottom:6px;
-    margin-top:35px;
+    padding-bottom:8px;
 }
 
 h3{
-    color:#374151;
     margin-top:20px;
+    color:#374151;
 }
 
 ul{
-    line-height:1.8;
+    margin-left:25px;
+}
+
+li{
+    margin:8px 0;
+}
+
+.badges{
+    margin-top:20px;
+}
+
+.badge{
+    display:inline-block;
+    background:#2563eb;
+    color:white;
+    padding:8px 16px;
+    border-radius:30px;
+    margin:5px;
+    font-size:14px;
+}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+.tech{
+    background:#f8fafc;
+    padding:20px;
+    border-radius:10px;
+    border-left:5px solid #2563eb;
 }
 
 pre{
@@ -59,21 +111,10 @@ code{
     border-radius:4px;
 }
 
-.badge{
-    display:inline-block;
-    background:#2563eb;
-    color:#fff;
-    padding:6px 12px;
-    margin:5px;
-    border-radius:20px;
-    font-size:14px;
-}
-
-.footer{
-    margin-top:40px;
+footer{
     text-align:center;
-    color:#666;
-    font-size:14px;
+    padding:30px;
+    color:#777;
 }
 </style>
 
@@ -81,17 +122,15 @@ code{
 
 <body>
 
-<div class="container">
+<header>
 
 <h1>⭐ Store Ratings Web Application</h1>
 
 <p>
-A full-stack web application developed as part of a <strong>Full Stack Intern Coding Challenge</strong>.
-The application enables users to browse stores, submit ratings (1–5), and provides secure role-based access for
-System Administrators, Store Owners, and Normal Users.
+Full Stack Intern Coding Challenge
 </p>
 
-<div>
+<div class="badges">
 <span class="badge">React</span>
 <span class="badge">Express.js</span>
 <span class="badge">Node.js</span>
@@ -99,17 +138,36 @@ System Administrators, Store Owners, and Normal Users.
 <span class="badge">JWT</span>
 </div>
 
-<h2>📌 Features</h2>
+</header>
+
+<div class="container">
+
+<div class="card">
+
+<h2>Project Overview</h2>
+
+<p>
+Store Ratings is a full-stack web application that enables users to browse registered stores,
+submit ratings between 1 and 5, and access role-based dashboards. The application follows
+secure authentication practices and implements role-based authorization for Administrators,
+Store Owners, and Normal Users.
+</p>
+
+</div>
+
+<div class="card">
+
+<h2>Features</h2>
 
 <h3>👨‍💼 System Administrator</h3>
 
 <ul>
 <li>Secure Login</li>
-<li>Dashboard displaying Users, Stores and Ratings</li>
-<li>Add, View and Manage Users</li>
-<li>Add and Manage Stores</li>
-<li>View User Details</li>
-<li>Search, Filter and Sort Records</li>
+<li>Dashboard with total Users, Stores and Ratings</li>
+<li>Create and manage Users</li>
+<li>Create and manage Stores</li>
+<li>Search, Filter and Sort records</li>
+<li>View user details</li>
 <li>Logout</li>
 </ul>
 
@@ -117,11 +175,11 @@ System Administrators, Store Owners, and Normal Users.
 
 <ul>
 <li>User Registration</li>
-<li>Login</li>
+<li>Secure Login</li>
 <li>Browse Stores</li>
 <li>Search Stores</li>
 <li>Submit Ratings</li>
-<li>Update Ratings</li>
+<li>Modify Ratings</li>
 <li>Update Password</li>
 <li>Logout</li>
 </ul>
@@ -131,21 +189,46 @@ System Administrators, Store Owners, and Normal Users.
 <ul>
 <li>Secure Login</li>
 <li>View Store Average Rating</li>
-<li>View Customers who Rated Store</li>
+<li>View Users who Rated the Store</li>
 <li>Update Password</li>
 <li>Logout</li>
 </ul>
 
-<h2>🛠 Technology Stack</h2>
+</div>
 
-<ul>
-<li><strong>Frontend:</strong> React.js, Vite, React Router, Axios</li>
-<li><strong>Backend:</strong> Node.js, Express.js</li>
-<li><strong>Database:</strong> PostgreSQL</li>
-<li><strong>Authentication:</strong> JWT, bcrypt</li>
-</ul>
+<div class="card">
 
-<h2>📁 Project Structure</h2>
+<h2>Technology Stack</h2>
+
+<div class="grid">
+
+<div class="tech">
+<h3>Frontend</h3>
+<p>React.js<br>Vite<br>React Router<br>Axios</p>
+</div>
+
+<div class="tech">
+<h3>Backend</h3>
+<p>Node.js<br>Express.js</p>
+</div>
+
+<div class="tech">
+<h3>Database</h3>
+<p>PostgreSQL</p>
+</div>
+
+<div class="tech">
+<h3>Security</h3>
+<p>JWT Authentication<br>bcrypt Password Hashing</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="card">
+
+<h2>Project Structure</h2>
 
 <pre>
 store-ratings-app/
@@ -159,7 +242,11 @@ store-ratings-app/
 └── README.md
 </pre>
 
-<h2>🚀 Local Setup</h2>
+</div>
+
+<div class="card">
+
+<h2>Local Setup</h2>
 
 <h3>Backend</h3>
 
@@ -179,24 +266,32 @@ npm run dev
 </pre>
 
 <p>
-The application runs locally using the Vite development server and Express backend.
+The application runs locally using the Express backend and Vite development server.
 </p>
 
-<h2>🔐 Environment Variables</h2>
+</div>
 
-<p>Create a <code>.env</code> file from <code>.env.example</code>.</p>
+<div class="card">
+
+<h2>Environment Variables</h2>
 
 <pre>
-DATABASE_URL=
-JWT_SECRET=
-ADMIN_NAME=
-ADMIN_EMAIL=
-ADMIN_PASSWORD=
+DATABASE_URL=&lt;your_database_url&gt;
+JWT_SECRET=&lt;your_secret_key&gt;
+ADMIN_NAME=&lt;admin_name&gt;
+ADMIN_EMAIL=&lt;admin_email&gt;
+ADMIN_PASSWORD=&lt;admin_password&gt;
 </pre>
 
-<p><strong>Note:</strong> Sensitive credentials are intentionally excluded from this repository.</p>
+<p>
+Sensitive credentials are intentionally excluded from this repository.
+</p>
 
-<h2>✅ Validation Rules</h2>
+</div>
+
+<div class="card">
+
+<h2>Validation Rules</h2>
 
 <ul>
 <li>Name: 20–60 characters</li>
@@ -205,40 +300,49 @@ ADMIN_PASSWORD=
 <li>Password: 8–16 characters with at least one uppercase letter and one special character</li>
 </ul>
 
-<h2>🔒 Security Features</h2>
+</div>
+
+<div class="card">
+
+<h2>Security Features</h2>
 
 <ul>
 <li>JWT Authentication</li>
-<li>Password Hashing (bcrypt)</li>
+<li>Password Hashing using bcrypt</li>
 <li>Role-Based Access Control</li>
 <li>Protected API Routes</li>
 <li>Parameterized SQL Queries</li>
 <li>Environment Variable Configuration</li>
 </ul>
 
-<h2>📷 Screenshots</h2>
+</div>
+
+<div class="card">
+
+<h2>Assignment Information</h2>
 
 <p>
-Screenshots of the application interface can be added here for reference.
+This project was developed as part of a Full Stack Intern Coding Challenge.
+It demonstrates secure authentication, user management, store management,
+role-based authorization, rating functionality, filtering, sorting, and
+PostgreSQL database integration using modern full-stack development practices.
 </p>
 
-<h2>📖 Assignment Information</h2>
+</div>
+
+</div>
+
+<footer>
 
 <p>
-This project was developed as part of a Full Stack Intern Coding Challenge using Express.js, React.js, and PostgreSQL. The application demonstrates secure authentication, role-based authorization, store management, user management, and rating functionality following best development practices.
+Developed for the Full Stack Intern Coding Challenge
 </p>
-
-<h2>📄 License</h2>
 
 <p>
-This project is intended solely for educational and assignment evaluation purposes.
-</p>
-
-<div class="footer">
 © 2026 Store Ratings Web Application
-</div>
+</p>
 
-</div>
+</footer>
 
 </body>
 </html>
